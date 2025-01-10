@@ -50,18 +50,50 @@ return array(
         'type'        => 'title',
         'description' => '',
     ),
-    'developer_payment_method' => array(
-        'title'       => __( 'Payment Method', 'woocommerce-gateway-mypos' ),
-        'type'        => 'select',
-        'class'       => 'wc-enhanced-select',
-        'desc_tip'    => true,
-        'default'     => 3,
-        'options' => array(
-            '1' => __( 'Card Payment', 'woocommerce-gateway-mypos' ),
-            '2' => __( 'iDeal', 'woocommerce-gateway-mypos' ),
-            '3' => __( 'All', 'woocommerce-gateway-mypos' ),
-        ),
-    ),
+//    'developer_payment_method' => array(
+//        'title'       => __( 'Payment Method', 'woocommerce-gateway-mypos' ),
+//        'type'        => 'select',
+//        'class'       => 'wc-enhanced-select',
+//        'desc_tip'    => true,
+//        'default'     => 3,
+//        'options' => array(
+//            '1' => __( 'Card Payment', 'woocommerce-gateway-mypos' ),
+//            '2' => __( 'iDeal', 'woocommerce-gateway-mypos' ),
+//            '3' => __( 'All', 'woocommerce-gateway-mypos' ),
+//        ),
+//    ),
+	'payment_method_1' => array(
+		'title'		  => __( 'Payment method', 'woocommerce-gateway-mypos' ),
+		'label'       => __( 'Card Payment', 'woocommerce-gateway-mypos' ),
+		'type'        => 'checkbox',
+		'class'       => 'wc-enhanced-checkbox',
+		'description' => 'You can choose which payment methods to use',
+		'desc_tip'    => true,
+		'default'     => 'no',
+	),
+
+	'payment_method_2' => array(
+		'label'       => __( 'iDeal', 'woocommerce-gateway-mypos' ),
+		'type'        => 'checkbox',
+		'class'       => 'wc-enhanced-checkbox',
+		'desc_tip'    => true,
+		'default'     => 'no',
+	),
+	'payment_method_4' => array(
+		'label'       => __( 'Satispay', 'woocommerce-gateway-mypos' ),
+		'type'        => 'checkbox',
+		'class'       => 'wc-enhanced-checkbox',
+		'desc_tip'    => true,
+		'default'     => 'no',
+	),
+	'payment_method_3' => array(
+		'label'       => __( 'Both', 'woocommerce-gateway-mypos' ),
+		'type'        => 'checkbox',
+		'class'       => 'wc-enhanced-checkbox',
+		'description' => 'If this option is selected, the others will not matter because it turns to show all options together',
+		'desc_tip'    => true,
+		'default'     => 'yes',
+	),
     'developer_easy_setup' => array(
         'type'        => 'title',
         'css'        => 'color: grey;',
@@ -101,11 +133,11 @@ return array(
         'description' => __( 'The myPOS Public Certificate is available for download in your online banking at www.mypos.com > menu  Online stores > Keys.', 'woocommerce-gateway-mypos' ),
         'desc_tip'    => true,
     ),
-    'developer_url' => array(
-        'title'       => __( 'Developer URL', 'woocommerce-gateway-mypos' ),
-        'type'        => 'text',
-        'default'     => 'https://www.mypos.com/vmp/checkout-test',
-    ),
+//    'developer_url' => array(
+//        'title'       => __( 'Developer URL', 'woocommerce-gateway-mypos' ),
+//        'type'        => 'text',
+//        'default'     => 'https://www.mypos.com/vmp/checkout-test',
+//    ),
     'developer_keyindex' => array(
         'title'       => __( 'Developer Key Index', 'woocommerce-gateway-mypos' ),
         'type'        => 'text',
@@ -183,11 +215,11 @@ return array(
         'description' => __( 'The myPOS Public Certificate is available for download in your online banking at www.mypos.com > menu Online stores > Keys.', 'woocommerce-gateway-mypos' ),
         'desc_tip'    => true,
     ),
-    'production_url' => array(
+/*    'production_url' => array(
         'title'       => __( 'Production URL', 'woocommerce-gateway-mypos' ),
         'type'        => 'text',
         'default'     => 'https://www.mypos.com/vmp/checkout',
-    ),
+    ),*/
     'production_keyindex' => array(
         'title'       => __( 'Production Key Index', 'woocommerce-gateway-mypos' ),
         'type'        => 'text',

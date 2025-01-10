@@ -2,9 +2,9 @@
 Contributors: iPayInternational
 Tags: myPOS, virtual, virtual POS, myPOS Checkout, payment, payment gateway, shopping cart, WordPress payment gateway, WooCommerce payment gateway, online shop, e-commerce payment gateway, card payments
 Requires at least: 6.1
-Tested up to: 6.4.2
-Requires PHP: 7.0
-Stable tag: 1.3.30
+Tested up to: 6.7.1
+Requires PHP: 7.4 or greater
+Stable tag: 1.3.32
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -72,7 +72,7 @@ To configure the plugin, go to WooCommerce > Settings > Checkout > myPOS Checkou
 
 = Requirements =
 
-* The minimum PHP version required for the myPOS Checkout plugin is 5.4.8.
+* The minimum PHP version required for the myPOS Checkout plugin is 7.4 or greater
 * In order to process card transactions successfully myPOS Checkout requires secure connection by using HTTPS protocol. You should install an SSL certificate onto your website to initiate a secure session. If your website is not using SSL certificate, your transactions will be automatically reversed by the system.
 
 
@@ -120,6 +120,10 @@ Additionally, you can visit the WooCommerce integration page  [https://developer
 == Changelog ==
 = 1.0.0 =
 * myPOS Checkout for WooCommerce First Release
+= 1.3.32 =
+* Added 'Satispay' as a new payment method for merchants who are registered to use the service. 
+* Fixed minor bugs. 
+* Changed the menu for selecting payment methods.
 
 == Upgrade Notice ==
 = 1.0.0 =

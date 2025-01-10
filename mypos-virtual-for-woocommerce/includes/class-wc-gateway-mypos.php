@@ -18,13 +18,14 @@ add_action('mypos_check_payment_status', 'mypos_check_pending_payment_orders_sta
  *
  * @author myPOS Europe LTD
  * @package WooCommerce Mypos Payments Gateway
- * @since 1.3.30
+ * @since 1.3.32
  */
 class WC_Gateway_Mypos extends WC_Payment_Gateway
 {
 	public const PAYMENT_METHOD_CARD = '1';
 	public const PAYMENT_METHOD_IDEAL = '2';
 	public const PAYMENT_METHOD_BOTH = '3';
+	public const PAYMENT_METHOD_SATISPAY = '4';
 	public const PENDING_PAYMENT_DB_TABLE_NAME = 'mypos_pending_payments_schedule';
 	public const WAITING_CONFIRMATION_PERIOD_HOURS = '8';
 	public const WAITING_CONFIRMATION_DEADLINE_HOURS = '24'; //Hours after the order change his status as canceled
@@ -106,7 +107,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway
 
 		$this->test_prefix = $this->get_option('test_prefix');
 
-		$this->force_tld();
+		//$this->force_tld();
 
 		if (!$this->test) {
 			$packageData = json_decode(base64_decode($this->get_option('production_package')), true);
@@ -145,7 +146,19 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway
 			);
 			$this->url = $this->get_option('developer_url');
 			$this->paymentParametersRequired = $this->get_option('developer_ppr');
-			$this->paymentMethod = $this->get_option('developer_payment_method');
+			$developerPaymentMethod = [3];
+			for ($i = 1; $i < 5; $i++){
+				if ($this->get_option('payment_method_3') === "yes"){
+					$this->update_option('payment_method_1', 'no');
+					$this->update_option('payment_method_2', 'no');
+					$this->update_option('payment_method_4', 'no');
+					$developerPaymentMethod[] = self::PAYMENT_METHOD_BOTH;
+				}else{
+					$this->get_option('payment_method_'.$i) === "yes" ? $developerPaymentMethod[] = $i : null;
+				}
+			}
+			$selectedDeveloperPaymentMethods = implode(',', array_unique($developerPaymentMethod));
+			$this->paymentMethod = $selectedDeveloperPaymentMethods;
 		}
 
 		$this->merchant_wallet_number = $this->get_option('merchant_wallet_number');
@@ -247,13 +260,13 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway
 	{
 		$productionUrl = $this->get_option('production_url');
 
-		if (empty($productionUrl) || false !== stripos((parse_url($productionUrl)['host']), 'mypos.eu')) {
+		if (empty($productionUrl) || false !== stripos((parse_url($productionUrl)['host']), 'mypos.com')) {
 			$this->update_option('production_url', 'https://mypos.com/vmp/checkout');
 		}
 
 		$developerUrl = $this->get_option('developer_url');
 
-		if (empty($developerUrl) || false !== stripos((parse_url($developerUrl)['host']), 'mypos.eu')) {
+		if (empty($developerUrl) || false !== stripos((parse_url($developerUrl)['host']), 'mypos.com')) {
 			$this->update_option('developer_url', 'https://mypos.com/vmp/checkout-test');
 		}
 	}
@@ -311,7 +324,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway
 
 	public function get_source()
 	{
-		return 'sc_wp_woocommerce 1.3.30 ' . PHP_VERSION . ' ' . get_bloginfo('version');
+		return 'sc_wp_woocommerce 1.3.32 ' . PHP_VERSION . ' ' . get_bloginfo('version');
 	}
 
 	public function receipt_page($order)
@@ -606,7 +619,6 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway
 			// Concatenate all values
 			$concData = base64_encode(implode('-', $post));
 
-
 			// Extract public key from certificate
 			$pubKeyId = openssl_get_publickey($this->public_certificate);
 
@@ -676,7 +688,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway
 
 		// Parse xml
 		$post = $this->xml_to_post($result);
-		
+
 		if ($this->is_valid_signature($post)) {
 			if ($post['Status'] != 0) {
 				self::log('Refund failed for order: ' . $order->get_order_number() . '. Status: ' . $post['Status']);
@@ -759,7 +771,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway
 			) && $this->is_order_expired($order)) {
 			$this->remove_from_pending_payments_schedule($order->get_id());
 			$order->update_status('cancelled');
-			$order->add_order_note('myPOS Checkout has cancelled  the order. Reason: expired.');
+			$order->add_order_note('myPOS Checkout has cancelled the order. Reason: expired.');
 		}
 
 
