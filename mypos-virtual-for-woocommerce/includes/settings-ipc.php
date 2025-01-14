@@ -133,11 +133,11 @@ return array(
         'description' => __( 'The myPOS Public Certificate is available for download in your online banking at www.mypos.com > menu  Online stores > Keys.', 'woocommerce-gateway-mypos' ),
         'desc_tip'    => true,
     ),
-//    'developer_url' => array(
-//        'title'       => __( 'Developer URL', 'woocommerce-gateway-mypos' ),
-//        'type'        => 'text',
-//        'default'     => 'https://www.mypos.com/vmp/checkout-test',
-//    ),
+    'developer_url' => array(
+        'title'       => __( 'Developer URL', 'woocommerce-gateway-mypos' ),
+        'type'        => 'hidden',
+        'default'     => 'https://www.mypos.com/vmp/checkout-test',
+    ),
     'developer_keyindex' => array(
         'title'       => __( 'Developer Key Index', 'woocommerce-gateway-mypos' ),
         'type'        => 'text',
@@ -215,11 +215,11 @@ return array(
         'description' => __( 'The myPOS Public Certificate is available for download in your online banking at www.mypos.com > menu Online stores > Keys.', 'woocommerce-gateway-mypos' ),
         'desc_tip'    => true,
     ),
-/*    'production_url' => array(
+    'production_url' => array(
         'title'       => __( 'Production URL', 'woocommerce-gateway-mypos' ),
-        'type'        => 'text',
+        'type'        => 'hidden',
         'default'     => 'https://www.mypos.com/vmp/checkout',
-    ),*/
+    ),
     'production_keyindex' => array(
         'title'       => __( 'Production Key Index', 'woocommerce-gateway-mypos' ),
         'type'        => 'text',

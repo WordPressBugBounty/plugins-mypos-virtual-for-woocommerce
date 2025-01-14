@@ -1,10 +1,10 @@
 === myPOS Checkout for WooCommerce ===
 Contributors: iPayInternational
-Tags: myPOS, virtual, virtual POS, myPOS Checkout, payment, payment gateway, shopping cart, WordPress payment gateway, WooCommerce payment gateway, online shop, e-commerce payment gateway, card payments
+Tags: myPOS, virtual, Checkout, payment, gateway
 Requires at least: 6.1
 Tested up to: 6.7.1
 Requires PHP: 7.4 or greater
-Stable tag: 1.3.32
+Stable tag: 1.3.33
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -120,9 +120,9 @@ Additionally, you can visit the WooCommerce integration page  [https://developer
 == Changelog ==
 = 1.0.0 =
 * myPOS Checkout for WooCommerce First Release
-= 1.3.32 =
-* Added 'Satispay' as a new payment method for merchants who are registered to use the service. 
-* Fixed minor bugs. 
+= 1.3.33 =
+* Added 'Satispay' as a new payment method for merchants who are registered to use the service.
+* Fixed minor bugs.
 * Changed the menu for selecting payment methods.
 
 == Upgrade Notice ==
