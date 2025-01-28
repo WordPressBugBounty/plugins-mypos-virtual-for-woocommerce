@@ -33,18 +33,23 @@ class MyPOS_REST_Version_Controller
      */
     protected string $version = 'v1';
 
-    /**
+	public function __construct()
+	{
+		add_action( 'rest_api_init', 'register_routes');
+	}
+
+	/**
      * Register the routes for upsells.
      */
     public function register_routes(): void
     {
-        register_rest_route($this->namespace, '/' . $this->rest_base, array(
-            array(
-                'methods'             => WP_REST_Server::READABLE,
-                'callback'            => array( $this, 'check_version' ),
-                'permission_callback' => '__return_true',
-            )
-        ));
+		register_rest_route($this->namespace, '/' . $this->rest_base,
+			array(
+				'methods' => WP_REST_Server::READABLE,
+				'callback' => array($this, 'check_version'),
+				'permission_callback' => '__return_true',
+			)
+		);
     }
 
     public function check_version(): WP_Error|WP_REST_Response|WP_HTTP_Response

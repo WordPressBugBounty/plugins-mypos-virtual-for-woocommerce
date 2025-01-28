@@ -15,10 +15,15 @@ class MyPOS_Auth {
         add_filter('query_vars', array($this, 'add_query_vars'), 0);
 
         // Register auth endpoint.
-        add_action('init', array(__CLASS__, 'add_endpoint'), 0);
+        add_action('init', [$this, 'add_endpoint']);
 
         // Handle auth requests.
-        add_action('parse_request', array($this, 'handle_auth_requests'), 0);
+        add_action('parse_request', [$this, 'handle_auth_requests']);
+
+		// Refresh permalinks to set our rewrite rule on activation/deactivation
+		register_activation_hook(__FILE__, 'flush_rewrite_rules_on_activation');
+		register_deactivation_hook(__FILE__, 'flush_rewrite_rules_on_deactivation');
+
     }
 
     /**
@@ -41,6 +46,22 @@ class MyPOS_Auth {
         add_rewrite_rule( '^mp-auth/(.*)?', 'index.php?mp-auth-route=$matches[1]', 'top' );
     }
 
+	/**
+	 * Flush rewrite rules when plugin is activated
+	 */
+	function flush_rewrite_rules_on_activation() {
+		$this->add_endpoint();
+		flush_rewrite_rules();
+	}
+
+
+	/**
+	 * Flush rewrite rules when plugin is deactivated
+	 */
+	function flush_rewrite_rules_on_deactivation() {
+		flush_rewrite_rules();
+	}
+
     /**
      * Handle auth requests.
      *
@@ -50,8 +71,11 @@ class MyPOS_Auth {
     {
         global $wp;
 
-        if (!empty($_GET['mp-auth-route'])) {
-            $wp->query_vars['mp-auth-route'] = mypos_clean(wp_unslash($_GET['mp-auth-route']));
+		$current_route = add_query_arg(array(), $wp->request);
+		$path = explode('/', $current_route);
+
+        if ($path[0] === 'mp-path') {
+            $wp->query_vars['mp-auth-route'] = is_scalar(wp_unslash($path[1]) ? sanitize_text_field(wp_unslash($path[1])) : wp_unslash($path[1]));
         }
 
         // mp-auth endpoint requests.
@@ -91,7 +115,7 @@ class MyPOS_Auth {
     {
         $url = urldecode($url);
 
-        if (!strstr($url, '://')) {
+        if (!str_contains($url, '://')) {
             $url = 'https://' . $url;
         }
 
@@ -113,6 +137,7 @@ class MyPOS_Auth {
             'developer_package',
         ];
 
+		// Check for empty params
         foreach ($params as $param) {
             if (empty($_REQUEST[$param])) { // WPCS: input var ok, CSRF ok.
                 /* translators: %s: parameter */
@@ -122,8 +147,9 @@ class MyPOS_Auth {
             $data[$param] = wp_unslash($_REQUEST[$param]); // WPCS: input var ok, CSRF ok, sanitization ok.
         }
 
+		// Validate URL addresses
         foreach (['return_url', 'success_url'] as $param) {
-            $param = $this->get_formatted_url($data[$param]);
+            $param = $this->get_formatted_url($data[$param]); //force param to get URL format
 
             if (false === filter_var($param, FILTER_VALIDATE_URL)) {
                 /* translators: %s: url */
@@ -149,7 +175,6 @@ class MyPOS_Auth {
             $newOptions['test'] = 'no';
             $newOptions['production_package'] = $developerPackage;
         }
-
         if (get_option('woocommerce_mypos_virtual_settings') !== $newOptions &&
             false === update_option('woocommerce_mypos_virtual_settings', $newOptions)) {
             throw new RuntimeException(__('Could not make an update', 'mypos'));
@@ -167,11 +192,13 @@ class MyPOS_Auth {
     protected function auth_endpoint(string $route)
     {
         ob_start();
-
+		include 'mypos-core-functions.php';
         try {
             $route = strtolower($route);
 
-            $this->make_validation();
+			if ($route !== 'checkinstall'){
+				$this->make_validation();
+			}
 
             $data = wp_unslash($_REQUEST);
 
@@ -186,9 +213,11 @@ class MyPOS_Auth {
                 );
                 exit;
 
-            }
+            }else if ('checkinstall' === $route ) {
+				echo 'OK';
+				exit;
 
-            if ('login' === $route && is_user_logged_in()) {
+			} else if ('login' === $route && is_user_logged_in()) {
                 // Redirect with user is logged in.
                 wp_redirect(esc_url_raw($this->build_url($data, 'authorize')));
                 exit;
@@ -200,7 +229,7 @@ class MyPOS_Auth {
 
             } elseif ('authorize' === $route && current_user_can('manage_woocommerce')) {
                 // Authorize endpoint.
-                mypos_get_template(
+				mypos_get_template(
                     'auth/form-grant-access.php', array(
                         'store_name' => mypos_clean($data['store_name']),
                         'return_url' => $this->get_formatted_url($data['return_url']),
@@ -233,5 +262,12 @@ class MyPOS_Auth {
             wp_die(sprintf(esc_html__('Error: %s.', 'mypos'), esc_html($e->getMessage())), esc_html__('Access denied', 'mypos'), array('response' => 401));
         }
     }
+
+	public function mypos_handle_post_request($request)
+	{
+		//$parameters = $request->get_json_params();
+
+		return $this->handle_auth_requests();
+	}
 }
 new MyPOS_Auth();

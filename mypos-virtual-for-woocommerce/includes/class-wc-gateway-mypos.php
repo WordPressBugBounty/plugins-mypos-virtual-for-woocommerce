@@ -13,12 +13,14 @@ function mypos_check_pending_payment_orders_statuses()
 
 add_action('mypos_check_payment_status', 'mypos_check_pending_payment_orders_statuses');
 
+
+require_once 'class-mypos-auth.php';
 /**
  * WC_Gateway_Mypos class
  *
  * @author myPOS Europe LTD
  * @package WooCommerce Mypos Payments Gateway
- * @since 1.3.33
+ * @since 1.3.34
  */
 class WC_Gateway_Mypos extends WC_Payment_Gateway
 {
@@ -127,7 +129,23 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway
 			);
 			$this->url = $this->get_option('production_url');
 			$this->paymentParametersRequired = $this->get_option('production_ppr');
-			$this->paymentMethod = $this->get_option('production_payment_method');
+			$developerPaymentMethod = [];
+			for ($i = 1; $i < 5; $i++){
+				if ($this->get_option('payment_method_3') === "yes"){
+					$this->update_option('payment_method_1', 'no');
+					$this->update_option('payment_method_2', 'no');
+					$this->update_option('payment_method_4', 'no');
+					$developerPaymentMethod[] = self::PAYMENT_METHOD_BOTH;
+				}else{
+					$this->get_option('payment_method_'.$i) === "yes" ? $developerPaymentMethod[] = $i : null;
+				}
+			}
+			$selectedDeveloperPaymentMethods = implode(',', array_unique($developerPaymentMethod));
+			if($selectedDeveloperPaymentMethods == ""){
+				$this->update_option('payment_method_3', 'yes');
+				$selectedDeveloperPaymentMethods = self::PAYMENT_METHOD_BOTH;
+			}
+			$this->paymentMethod = $selectedDeveloperPaymentMethods;
 		} else {
 			$packageData = json_decode(base64_decode($this->get_option('developer_package')), true);
 
@@ -146,7 +164,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway
 			);
 			$this->url = $this->get_option('developer_url');
 			$this->paymentParametersRequired = $this->get_option('developer_ppr');
-			$developerPaymentMethod = [3];
+			$developerPaymentMethod = [];
 			for ($i = 1; $i < 5; $i++){
 				if ($this->get_option('payment_method_3') === "yes"){
 					$this->update_option('payment_method_1', 'no');
@@ -158,6 +176,10 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway
 				}
 			}
 			$selectedDeveloperPaymentMethods = implode(',', array_unique($developerPaymentMethod));
+			if($selectedDeveloperPaymentMethods == ""){
+				$this->update_option('payment_method_3', 'yes');
+				$selectedDeveloperPaymentMethods = self::PAYMENT_METHOD_BOTH;
+			}
 			$this->paymentMethod = $selectedDeveloperPaymentMethods;
 		}
 
@@ -324,7 +346,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway
 
 	public function get_source()
 	{
-		return 'sc_wp_woocommerce 1.3.33 ' . PHP_VERSION . ' ' . get_bloginfo('version');
+		return 'sc_wp_woocommerce 1.3.34 ' . PHP_VERSION . ' ' . get_bloginfo('version');
 	}
 
 	public function receipt_page($order)

@@ -79,7 +79,7 @@ final class MyPOS
         }
 
         $rest_prefix         = trailingslashit( rest_get_url_prefix());
-        $is_rest_api_request = (false !== strpos( $_SERVER['REQUEST_URI'], $rest_prefix)); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+        $is_rest_api_request = (str_contains($_SERVER['REQUEST_URI'], $rest_prefix)); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
         return apply_filters('is_rest_api_request', $is_rest_api_request);
     }
@@ -100,7 +100,7 @@ final class MyPOS
             case 'cron':
                 return defined('DOING_CRON');
             case 'frontend':
-                return (!is_admin() || defined('DOING_AJAX')) && !defined('DOING_CRON') && !$this->is_rest_api_request();
+                return (!is_admin() || defined('DOING_AJAX')) && !defined('DOING_CRON') && wp_is_serving_rest_request();
         }
     }
 
@@ -146,6 +146,7 @@ final class MyPOS
     {
         register_activation_hook(MYPOS_PLUGIN_FILE, ['MyPOS_Install', 'init']);
 
+		//Register REST API namespaces and endpoints
         add_filter('woocommerce_rest_api_get_rest_namespaces', [$this, 'register_custom_api']);
 
         add_action('after_setup_theme', [$this, 'include_template_functions'], 11);

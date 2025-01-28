@@ -38,7 +38,7 @@ final class WC_Gateway_Mypos_Blocks_Support extends AbstractPaymentMethodType
         $script_asset_path  = WC_Mypos_Payments::plugin_abspath() . 'assets/js/frontend/blocks.asset.php';
         $script_asset       = file_exists( $script_asset_path)
             ? require($script_asset_path)
-            : array('dependencies' => array(), 'version' => '1.3.33');
+            : array('dependencies' => array(), 'version' => '1.3.34');
         $script_url         = WC_Mypos_Payments::plugin_url() . $script_path;
 
         wp_register_script(

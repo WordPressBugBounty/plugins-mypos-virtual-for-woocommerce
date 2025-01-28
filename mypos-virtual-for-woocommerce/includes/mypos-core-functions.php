@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
 	exit;
 }
 
-require ABSPATH . 'includes/mypos-page-functions.php';
-require ABSPATH . 'includes/mypos-formatting-functions.php';
+require 'mypos-page-functions.php';
+require 'mypos-formatting-functions.php';
 
 /**
  * Define a constant if it is not already defined.
@@ -93,11 +93,11 @@ function mypos_get_template($template_name, $args = array(), $template_path = ''
 function mypos_locate_template($template_name, $template_path = '', $default_path = '')
 {
 	if (!$template_path) {
-		$template_path = MyPOS()->template_path();
+		$template_path = (new MyPOS())->template_path();
 	}
 
 	if (!$default_path) {
-		$default_path = MyPOS()->plugin_path() . '/templates/';
+		$default_path = (new MyPOS())->plugin_path() . '/templates/';
 	}
 
 
