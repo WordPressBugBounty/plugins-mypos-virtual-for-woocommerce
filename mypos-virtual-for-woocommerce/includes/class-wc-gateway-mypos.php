@@ -20,7 +20,7 @@ require_once 'class-mypos-auth.php';
  *
  * @author myPOS Europe LTD
  * @package WooCommerce Mypos Payments Gateway
- * @since 1.3.34
+ * @since 1.3.35
  */
 class WC_Gateway_Mypos extends WC_Payment_Gateway
 {
@@ -28,6 +28,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway
 	public const PAYMENT_METHOD_IDEAL = '2';
 	public const PAYMENT_METHOD_BOTH = '3';
 	public const PAYMENT_METHOD_SATISPAY = '4';
+	public const PAYMENT_METHOD_TWINT = '5';
 	public const PENDING_PAYMENT_DB_TABLE_NAME = 'mypos_pending_payments_schedule';
 	public const WAITING_CONFIRMATION_PERIOD_HOURS = '8';
 	public const WAITING_CONFIRMATION_DEADLINE_HOURS = '24'; //Hours after the order change his status as canceled
@@ -130,11 +131,12 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway
 			$this->url = $this->get_option('production_url');
 			$this->paymentParametersRequired = $this->get_option('production_ppr');
 			$developerPaymentMethod = [];
-			for ($i = 1; $i < 5; $i++){
+			for ($i = 1; $i < 6; $i++){
 				if ($this->get_option('payment_method_3') === "yes"){
 					$this->update_option('payment_method_1', 'no');
 					$this->update_option('payment_method_2', 'no');
 					$this->update_option('payment_method_4', 'no');
+					$this->update_option('payment_method_5', 'no');
 					$developerPaymentMethod[] = self::PAYMENT_METHOD_BOTH;
 				}else{
 					$this->get_option('payment_method_'.$i) === "yes" ? $developerPaymentMethod[] = $i : null;
@@ -165,11 +167,12 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway
 			$this->url = $this->get_option('developer_url');
 			$this->paymentParametersRequired = $this->get_option('developer_ppr');
 			$developerPaymentMethod = [];
-			for ($i = 1; $i < 5; $i++){
+			for ($i = 1; $i < 6; $i++){
 				if ($this->get_option('payment_method_3') === "yes"){
 					$this->update_option('payment_method_1', 'no');
 					$this->update_option('payment_method_2', 'no');
 					$this->update_option('payment_method_4', 'no');
+					$this->update_option('payment_method_5', 'no');
 					$developerPaymentMethod[] = self::PAYMENT_METHOD_BOTH;
 				}else{
 					$this->get_option('payment_method_'.$i) === "yes" ? $developerPaymentMethod[] = $i : null;
@@ -346,7 +349,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway
 
 	public function get_source()
 	{
-		return 'sc_wp_woocommerce 1.3.34 ' . PHP_VERSION . ' ' . get_bloginfo('version');
+		return 'sc_wp_woocommerce 1.3.35 ' . PHP_VERSION . ' ' . get_bloginfo('version');
 	}
 
 	public function receipt_page($order)

@@ -2,9 +2,9 @@
 Contributors: iPayInternational
 Tags: myPOS, virtual, virtual POS, myPOS Checkout, payment, payment gateway, shopping cart, WordPress payment gateway, WooCommerce payment gateway, online shop, e-commerce payment gateway, card payments
 Requires at least: 6.1
-Tested up to: 6.7.1
+Tested up to: 6.8.1
 Requires PHP: 7.4 or greater
-Stable tag: 1.3.34
+Stable tag: 1.3.35
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.en.html
 

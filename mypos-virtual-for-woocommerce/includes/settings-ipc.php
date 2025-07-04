@@ -69,6 +69,13 @@ return array(
 		'desc_tip'    => true,
 		'default'     => 'no',
 	),
+	'payment_method_5' => array(
+		'label'       => __( 'TWINT', 'woocommerce-gateway-mypos' ),
+		'type'        => 'checkbox',
+		'class'       => 'wc-enhanced-checkbox',
+		'desc_tip'    => true,
+		'default'     => 'no',
+	),
 	'payment_method_3' => array(
 		'label'       => __( 'All payment methods', 'woocommerce-gateway-mypos' ),
 		'type'        => 'checkbox',
