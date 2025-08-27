@@ -20,7 +20,7 @@ require_once 'class-mypos-auth.php';
  *
  * @author myPOS Europe LTD
  * @package WooCommerce Mypos Payments Gateway
- * @since 1.3.36
+ * @since 1.3.37
  */
 class WC_Gateway_Mypos extends WC_Payment_Gateway
 {
@@ -165,7 +165,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway
 				'developer_keyindex'
 			);
 			$this->url = $this->get_option('developer_url');
-			$this->paymentParametersRequired = $this->get_option('developer_ppr');
+			$this->paymentParametersRequired = $this->get_option('production_ppr');
 			$developerPaymentMethod = [];
 			for ($i = 1; $i < 6; $i++){
 				if ($this->get_option('payment_method_3') === "yes"){
@@ -349,7 +349,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway
 
 	public function get_source()
 	{
-		return 'sc_wp_woocommerce 1.3.36 ' . PHP_VERSION . ' ' . get_bloginfo('version');
+		return 'sc_wp_woocommerce 1.3.37 ' . PHP_VERSION . ' ' . get_bloginfo('version');
 	}
 
 	public function receipt_page($order)
