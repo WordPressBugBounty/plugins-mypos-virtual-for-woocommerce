@@ -6,7 +6,7 @@ use blocks\WC_Gateway_Mypos_Blocks_Support;
  * Plugin Name: Woocommerce myPOS Checkout
  * Plugin URI:
  * Description: myPOS Checkout.
- * Version: 1.3.37
+ * Version: 1.3.38
  * Author: myPOS Europe LTD
  * Author URI: https://www.mypos.com
  * Developer: Intercard Finance

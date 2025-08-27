@@ -4,7 +4,7 @@ Tags: myPOS, virtual, virtual POS, myPOS Checkout, payment, payment gateway, sho
 Requires at least: 6.1
 Tested up to: 6.8.1
 Requires PHP: 7.4 or greater
-Stable tag: 1.3.37
+Stable tag: 1.3.38
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.en.html
 

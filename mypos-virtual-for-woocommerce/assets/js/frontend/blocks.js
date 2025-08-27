@@ -1,1 +1,55 @@
-(()=>{"use strict";const e=window.React,t=window.wc.wcBlocksRegistry,o=window.wp.htmlEntities,c=window.wc.wcSettings,n=window.wc.blocksCheckout,i=e=>wp.element.RawHTML({children:e}),a=(0,c.getSetting)("mypos_virtual_data"),s=(0,o.decodeEntities)(a.title)||"Card Payment - myPOS",r={name:"mypos_virtual",title:a.title,description:a.description,category:"woocommerce",parent:["woocommerce/checkout-payment-methods-block"],canMakePayment:()=>!0,supports:a.supports,savedTokenComponent:"",label:(0,e.createElement)((t=>{const{PaymentMethodLabel:o}=t.components;return(0,e.createElement)(o,{text:s})}),null),content:(0,e.createElement)((()=>{let e=(0,o.decodeEntities)(i("Pay via myPOS Checkout<img src='"+a.path+'/mypos-virtual-for-woocommerce/assets/images/card_schemes_ideal_no_bg.png\' style="width: 100%; max-width: 395px;"/>'));return a?.description&&(e=(0,o.decodeEntities)(i(a.description+"<img src='"+a.path+'/mypos-virtual-for-woocommerce/assets/images/card_schemes_ideal_no_bg.png\' style="width: 100%; max-width: 395px;"/>'))),e}),null),ariaLabel:s,edit:(0,e.createElement)("div",null)},m={metadata:{...r},force:!0,component:()=>(0,e.createElement)("div",null)};(0,n.registerCheckoutBlock)(m),(0,t.registerPaymentMethod)(r)})();
+(() => {
+    "use strict";
+
+    const { createElement, RawHTML } = window.React;
+    const { decodeEntities } = window.wp.htmlEntities;
+    const { getSetting } = window.wc.wcSettings;
+    const { registerPaymentMethod } = window.wc.wcBlocksRegistry;
+    const { registerCheckoutBlock } = window.wc.blocksCheckout;
+
+    const myposData = getSetting("mypos_virtual_data");
+
+    if (!myposData) return;
+
+    const labelText = decodeEntities(myposData.title) || "Card Payment - myPOS";
+    const imgMarkup = `<img src="${myposData.path}/mypos-virtual-for-woocommerce/assets/images/card_schemes_ideal_no_bg.png" alt="Card Schemes" style="width: 100%; max-width: 395px;"/>`;
+    const descriptionMarkup = myposData.description
+        ? `${decodeEntities(myposData.description)} ${imgMarkup}`
+        : `Pay via myPOS Checkout ${imgMarkup}`;
+
+    const MyPOSLabel = ({ components: { PaymentMethodLabel } }) =>
+        createElement(PaymentMethodLabel, {
+            text: labelText,
+        });
+
+    const MyPOSContent = () =>
+        createElement(RawHTML, {
+            children: descriptionMarkup,
+        });
+
+    const myposPaymentMethod = {
+        name: "mypos_virtual",
+        label: createElement(MyPOSLabel),
+        ariaLabel: labelText,
+        canMakePayment: () => true,
+        content: createElement(MyPOSContent),
+        edit: createElement("div"),
+        supports: myposData.supports || {},
+    };
+
+    const myposCheckoutBlock = {
+        metadata: {
+            name: "mypos_virtual",
+            title: myposData.title,
+            description: myposData.description,
+            category: "woocommerce",
+            parent: ["woocommerce/checkout-payment-methods-block"],
+            supports: myposData.supports || {},
+        },
+        component: () => createElement("div", null),
+        force: true,
+    };
+
+    registerPaymentMethod(myposPaymentMethod);
+    registerCheckoutBlock(myposCheckoutBlock);
+})();
