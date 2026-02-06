@@ -1,6 +1,6 @@
 {
 	"name": "mypos_virtual",
-	"version": "1.3.38",
+	"version": "1.4.2",
 	"description": "Online payments with credit or debit card",
 	"author": "myPOS Europe LTD",
 	"license": "GPL-2.0-or-later",
@@ -15,10 +15,10 @@
 		"start": "wp-scripts start"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^26.18.0"
+		"@wordpress/scripts": "^31.3.0"
 	},
 	"dependencies": {
-		"@woocommerce/dependency-extraction-webpack-plugin": "^2.3.0",
+		"@woocommerce/dependency-extraction-webpack-plugin": "^4.0.0",
 		"@woocommerce/settings": "^1.0.0"
 	}
 }

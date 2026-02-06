@@ -1,0 +1,18 @@
+*** myPOS Virtual for WooCommerce Changelog ***
+
+2026-01-26 - version 1.4.0
+* Add - Refund support for partial and full refunds via myPOS.
+* Add - Payment status check directly from order details page.
+* Tweak - Webhook response handling for better reliability.
+* Tweak - Admin settings UI with toggle switches and settings link.
+* Tweak - Logging mechanism for easier debugging.
+* Fix - Critical errors removed and code refactored where necessary.
+* Fix - Added proper nonce verification and data sanitization.
+* Tweak - Optimized order processing and database queries.
+
+2026-02-02 - version 1.4.1
+* Fix - Supported currency codes list updated.
+* Fix - Minor bug fixes and performance improvements.
+
+2026-02-05 - version 1.4.2
+* Fix - Resolved compatibility issues with latest WooCommerce version.

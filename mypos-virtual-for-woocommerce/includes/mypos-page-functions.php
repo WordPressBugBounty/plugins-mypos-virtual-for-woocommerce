@@ -12,31 +12,39 @@ defined( 'ABSPATH' ) || exit;
  *
  * @return string
  */
-function mypos_get_endpoint_url(string $endpoint, string $value = '', string $permalink = '')
-{
-    if ( ! $permalink ) {
-        $permalink = get_permalink();
-    }
+function mypos_get_endpoint_url( string $endpoint, string $value = '', string $permalink = '' ) {
+	if ( ! $permalink ) {
+		$permalink = get_permalink();
+	}
 
-    if ( get_option( 'permalink_structure' ) ) {
-        if (str_contains($permalink, '?')) {
-            $query_string = '?' . wp_parse_url( $permalink, PHP_URL_QUERY );
-            $permalink    = current( explode( '?', $permalink ) );
-        } else {
-            $query_string = '';
-        }
-        $url = trailingslashit($permalink);
+	if ( get_option( 'permalink_structure' ) ) {
+		if ( str_contains( $permalink, '?' ) ) {
+			$query_string = '?' . wp_parse_url( $permalink, PHP_URL_QUERY );
+			$permalink    = current( explode( '?', $permalink ) );
+		} else {
+			$query_string = '';
+		}
+		$url = trailingslashit( $permalink );
 
-        if ( $value ) {
-            $url .= trailingslashit( $endpoint ) . user_trailingslashit( $value );
-        } else {
-            $url .= user_trailingslashit( $endpoint );
-        }
+		if ( $value ) {
+			$url .= trailingslashit( $endpoint ) . user_trailingslashit( $value );
+		} else {
+			$url .= user_trailingslashit( $endpoint );
+		}
 
-        $url .= $query_string;
-    } else {
-        $url = add_query_arg($endpoint, $value, $permalink );
-    }
+		$url .= $query_string;
+	} else {
+		$url = add_query_arg( $endpoint, $value, $permalink );
+	}
 
-    return apply_filters( 'mypos_get_endpoint_url', $url, $endpoint, $value, $permalink );
+	/**
+	 * Filter to allow modification of the endpoint URL for myPOS.
+	 *
+	 * @param string $url The endpoint URL.
+	 * @param string $endpoint The endpoint name.
+	 * @param mixed $value The value for the endpoint.
+	 * @param string $permalink The base permalink.
+	 * @return string
+	 */
+	return apply_filters( 'mypos_get_endpoint_url', $url, $endpoint, $value, $permalink );
 }

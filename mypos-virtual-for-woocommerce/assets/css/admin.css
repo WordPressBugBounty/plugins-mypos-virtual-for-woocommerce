@@ -1,0 +1,73 @@
+/**
+ * myPOS Admin Styles - Toggle Switch
+ *
+ * @package myPOS
+ */
+
+/* Toggle switch - класът е директно на input елемента */
+#mainform input[type="checkbox"].mypos-toggle,
+.woocommerce input[type="checkbox"].mypos-toggle,
+input[type="checkbox"].mypos-toggle {
+	-webkit-appearance: none !important;
+	-moz-appearance: none !important;
+	appearance: none !important;
+	position: relative !important;
+	width: 44px !important;
+	height: 24px !important;
+	background: #c3c4c7 !important;
+	border-radius: 12px !important;
+	border: none !important;
+	outline: none !important;
+	cursor: pointer !important;
+	transition: background 0.2s ease !important;
+	vertical-align: middle !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	min-width: 44px !important;
+	min-height: 24px !important;
+}
+
+/* Knob (бялото кръгче) */
+#mainform input[type="checkbox"].mypos-toggle::before,
+.woocommerce input[type="checkbox"].mypos-toggle::before,
+input[type="checkbox"].mypos-toggle::before {
+	content: "" !important;
+	position: absolute !important;
+	left: 2px !important;
+	top: 2px !important;
+	width: 20px !important;
+	height: 20px !important;
+	border-radius: 50% !important;
+	background: #fff !important;
+	transition: left 0.2s ease !important;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Checked state - background */
+#mainform input[type="checkbox"].mypos-toggle:checked,
+.woocommerce input[type="checkbox"].mypos-toggle:checked,
+input[type="checkbox"].mypos-toggle:checked {
+	background: #7E4C80 !important;
+}
+
+/* Checked state - knob position */
+#mainform input[type="checkbox"].mypos-toggle:checked::before,
+.woocommerce input[type="checkbox"].mypos-toggle:checked::before,
+input[type="checkbox"].mypos-toggle:checked::before {
+	left: 25px !important;
+	top: 4px !important;
+}
+
+/* Hover state */
+input[type="checkbox"].mypos-toggle:hover {
+	background: #a7aaad !important;
+}
+
+input[type="checkbox"].mypos-toggle:checked:hover {
+	background: #6a3f6c !important;
+}
+
+/* Focus state */
+input[type="checkbox"].mypos-toggle:focus {
+	box-shadow: 0 0 0 2px rgba(126, 76, 128, 0.4) !important;
+}

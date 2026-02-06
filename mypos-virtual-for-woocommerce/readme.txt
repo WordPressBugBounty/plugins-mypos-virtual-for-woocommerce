@@ -1,21 +1,24 @@
 === myPOS Checkout for WooCommerce ===
 Contributors: iPayInternational
-Tags: myPOS, virtual, virtual POS, myPOS Checkout, payment, payment gateway, shopping cart, WordPress payment gateway, WooCommerce payment gateway, online shop, e-commerce payment gateway, card payments
+Tags: mypos, payment gateway, woocommerce, checkout, payments
 Requires at least: 6.1
-Tested up to: 6.8.1
-Requires PHP: 7.4 or greater
-Stable tag: 1.3.38
+Tested up to: 6.9
+Requires PHP: 7.4
+Stable tag: 1.4.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.en.html
 
-A one-click checkout with a full range of payment services and instant settlement of funds
+One-click checkout with instant settlement. Accept all major cards, Apple Pay and Google Pay. No setup costs or monthly fees.
+
+== Description ==
 
 Created by myPOS for WooCommerce. No set up costs, no monthly fees. Only complete security and peace of mind with all major debit and credit card payments acceptance as well as digital wallets, ApplePay and Google Pay. Trusted by thousands of merchants in Europe.
+
 Available in: Austria, Belgium, Bulgaria, Croatia, Cyprus, Czech Republic, Denmark, Estonia, Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Latvia, Liechtenstein, Lithuania, Luxembourg, Malta, the Netherlands, Norway, Poland, Portugal, Romania, Slovakia, Slovenia, Spain and Sweden.
 
 https://www.youtube.com/watch?v=i0fPn8-P7L0
 
-== What makes the myPOS Checkout so awesome for you? ==
+= What makes the myPOS Checkout so awesome for you? =
 - **Enjoy instant settlement of funds, at no extra cost:** With myPOS you get instant payout, helping you ease liquidity challenges.
 - **Setting up is free:** sign up for your free myPOS account to get started and accept payments immediately after every sale.
 - **No monthly or annual fees:** you only pay a small transaction fee when you make a sale. [Check out our tariff](https://www.mypos.com/en/pricing-and-fees).
