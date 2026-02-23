@@ -37,7 +37,7 @@ final class WC_Gateway_Mypos_Blocks_Support extends AbstractPaymentMethodType {
 			? require $script_asset_path
 			: array(
 				'dependencies' => array(),
-				'version'      => '1.4.2',
+				'version'      => '1.4.3',
 			);
 		$script_url        = WC_Mypos_Payments::plugin_url() . $script_path;
 
@@ -50,7 +50,7 @@ final class WC_Gateway_Mypos_Blocks_Support extends AbstractPaymentMethodType {
 		);
 
 		if ( function_exists( 'wp_set_script_translations' ) ) {
-			wp_set_script_translations( 'mypos_virtual', 'woocommerce-gateway-mypos', WC_Mypos_Payments::plugin_abspath() . 'languages/' );
+			wp_set_script_translations( 'mypos_virtual', 'mypos-payments', WC_Mypos_Payments::plugin_abspath() . 'languages/' );
 		}
 
 		return array( 'mypos_virtual' );
@@ -60,7 +60,7 @@ final class WC_Gateway_Mypos_Blocks_Support extends AbstractPaymentMethodType {
 		return array(
 			'title'       => $this->get_setting( 'title' ),
 			'description' => $this->get_setting( 'description' ),
-			'path'        => plugins_url(),
+			'path'        => WC_Mypos_Payments::plugin_url(),
 			'supports'    => $this->gateway->supports,
 		);
 	}

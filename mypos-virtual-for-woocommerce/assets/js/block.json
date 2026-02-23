@@ -1,9 +1,9 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "mypos_virtual",
-  "version": "1.4.2",
-  "title": "MyPOS Checkout",
+  "name": "mypos/checkout",
+  "version": "1.4.3",
+  "title": "myPOS Checkout",
   "category": "widgets",
   "icon": "",
   "description": "Pay via myPOS Checkout",
@@ -11,7 +11,7 @@
   "supports": {
     "html": true
   },
-  "textdomain": "mypos-virtual-for-woocommerce",
+  "textdomain": "mypos-payments",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css",

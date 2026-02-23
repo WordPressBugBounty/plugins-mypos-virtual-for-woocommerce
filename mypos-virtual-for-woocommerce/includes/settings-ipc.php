@@ -33,7 +33,7 @@ return array(
 		'label'   => __( 'Enable test mode', 'mypos-payments' ),
 		'type'    => 'checkbox',
 		'default' => 'yes',
-        'class'   => 'mypos-toggle',
+		'class'   => 'mypos-toggle',
 	),
 	'debug'                         => array(
 		'title'   => __( 'Logging', 'mypos-payments' ),
@@ -55,7 +55,6 @@ return array(
 		'desc_tip'    => true,
 		'default'     => 'no',
 	),
-
 	'payment_method_2'              => array(
 		'label'    => __( 'iDeal', 'mypos-payments' ),
 		'type'     => 'checkbox',
@@ -97,31 +96,31 @@ return array(
 		'type'        => 'title',
 		'description' => '',
 	),
-	//    'developer_payment_method' => array(
-	//        'title'       => __( 'Payment Method', 'mypos-payments' ),
-	//        'type'        => 'select',
-	//        'class'       => 'wc-enhanced-select',
-	//        'desc_tip'    => true,
-	//        'default'     => 3,
-	//        'options' => array(
-	//            '1' => __( 'Card Payment', 'mypos-payments' ),
-	//            '2' => __( 'iDeal', 'mypos-payments' ),
-	//            '3' => __( 'All', 'mypos-payments' ),
-	//        ),
-	//    ),
-		'developer_easy_setup'      => array(
-			'type'        => 'title',
-			'css'         => 'color: grey;',
-			'description' => __( 'Easy setup', 'mypos-payments' ),
-		),
+//	'developer_payment_method'      => array(
+//		'title'       => __( 'Payment Method', 'mypos-payments' ),
+//		'type'        => 'select',
+//		'class'       => 'wc-enhanced-select',
+//		'desc_tip'    => true,
+//		'default'     => 3,
+//		'options'     => array(
+//			'1' => __( 'Card Payment', 'mypos-payments' ),
+//			'2' => __( 'iDeal', 'mypos-payments' ),
+//			'3' => __( 'All', 'mypos-payments' ),
+//		),
+//	),
+	'developer_easy_setup'          => array(
+		'type'        => 'title',
+		'css'         => 'color: grey;',
+		'description' => __( 'Easy setup', 'mypos-payments' ),
+	),
 	'developer_package'             => array(
 		'title'       => __( 'Configuration Pack', 'mypos-payments' ),
 		'type'        => 'textarea',
 		'description' => sprintf(
-            /* translators: %s: link to documentation */
-            __( 'Paste the Developer Configuration Package from your myPOS Developer account. You can obtain test credentials from the %s. Leave empty to configure manually below.', 'mypos-payments' ),
-        '<a href="https://developers.mypos.com/en/doc/online_payments/v1_4/226-test-data" target="_blank">' . __( 'myPOS Test Data documentation', 'mypos-payments' ) . '</a>'
-        ),
+			/* translators: %s: link to documentation */
+			__( 'Paste the Developer Configuration Package from your myPOS Developer account. You can obtain test credentials from the %s. Leave empty to configure manually below.', 'mypos-payments' ),
+			'<a href="https://developers.mypos.com/en/doc/online_payments/v1_4/226-test-data" target="_blank">' . __( 'myPOS Test Data documentation', 'mypos-payments' ) . '</a>'
+		),
 		'desc_tip'    => false,
 		'default'     => '',
 		'placeholder' => __( 'Paste Developer Configuration Package here (optional)', 'mypos-payments' ),
@@ -145,66 +144,65 @@ return array(
 //	'developer_private_key'         => array(
 //		'title'       => __( 'Private Key', 'mypos-payments' ),
 //		'type'        => 'hidden',
-//		'description' => __( 'The Private Key for your store is generated in your online banking at www.mypos.com > menu  Online stores > Keys.', 'mypos-payments' ),
+//		'description' => __( 'The Private Key for your store is generated in your online banking at www.mypos.com > menu Online stores > Keys.', 'mypos-payments' ),
 //		'desc_tip'    => true,
 //	),
 //	'developer_public_certificate'  => array(
 //		'title'       => __( 'myPOS Public Certificate', 'mypos-payments' ),
 //		'type'        => 'hidden',
-//		'description' => __( 'The myPOS Public Certificate is available for download in your online banking at www.mypos.com > menu  Online stores > Keys.', 'mypos-payments' ),
+//		'description' => __( 'The myPOS Public Certificate is available for download in your online banking at www.mypos.com > menu Online stores > Keys.', 'mypos-payments' ),
 //		'desc_tip'    => true,
 //	),
-//	    'developer_url' => array(
-//	        'title'       => __( '', 'woocommerce-gateway-mypos' ),
-//	        'type'        => 'hidden',
-//	        'default'     => 'https://www.mypos.com/vmp/checkout-test',
-//	    ),
-//		'developer_keyindex'        => array(
-//			'title'       => __( 'Developer Key Index', 'mypos-payments' ),
-//			'type'        => 'hidden',
-//			'css'         => 'margin-bottom: 100px;',
-//			'description' => __( 'The Key Index assigned to the certificate could be reviewed in your online banking at www.mypos.com > menu Online stores > Keys.', 'mypos-payments' ),
-//			'desc_tip'    => true,
-//		),
+//	'developer_url'                 => array(
+//		'title'       => __( '', 'mypos-payments' ),
+//		'type'        => 'hidden',
+//		'default'     => 'https://www.mypos.com/vmp/checkout-test',
+//	),
+//	'developer_keyindex'            => array(
+//		'title'       => __( 'Developer Key Index', 'mypos-payments' ),
+//		'type'        => 'hidden',
+//		'css'         => 'margin-bottom: 100px;',
+//		'description' => __( 'The Key Index assigned to the certificate could be reviewed in your online banking at www.mypos.com > menu Online stores > Keys.', 'mypos-payments' ),
+//		'desc_tip'    => true,
+//	),
 
 	'production_options'            => array(
 		'title'       => __( 'Production options', 'mypos-payments' ),
 		'type'        => 'title',
-		'description' =>  sprintf(
-            __( 'Before using this payment method, you need to create and configure your online store in the myPOS system. 
-First, follow the official documentation to set up your store and generate a Configuration Pack. 
-You can find detailed instructions here: <a href="https://developers.mypos.com/en/doc/online_payments/v1_4/5-store-management" target="_blank" rel="noopener noreferrer">Store Management</a>. 
-After generating the Configuration Pack, paste it into the field below to connect your store with this plugin. 
-Additional information about the contents and configuration of the Configuration Pack can be found here: 
+		'description' => sprintf(
+			__( 'Before using this payment method, you need to create and configure your online store in the myPOS system.
+First, follow the official documentation to set up your store and generate a Configuration Pack.
+You can find detailed instructions here: <a href="https://developers.mypos.com/en/doc/online_payments/v1_4/5-store-management" target="_blank" rel="noopener noreferrer">Store Management</a>.
+After generating the Configuration Pack, paste it into the field below to connect your store with this plugin.
+Additional information about the contents and configuration of the Configuration Pack can be found here:
 <a href="https://developers.mypos.com/en/doc/online_payments/v1_4/309-configuration" target="_blank" rel="noopener noreferrer">Configuration Documentation</a>.', 'mypos-payments' )
-
-        )
-	),
-	//    'production_payment_method' => array(
-	//        'title'       => __( 'Payment Method', 'woocommerce-gateway-mypos' ),
-	//        'type'        => 'select',
-	//        'class'       => 'wc-enhanced-select',
-	//        'desc_tip'    => true,
-	//        'default'     => 3,
-	//        'options' => array(
-	//            '1' => __( 'Card Payment', 'woocommerce-gateway-mypos' ),
-	//            '2' => __( 'iDeal', 'woocommerce' ),
-	//            '3' => __( 'All', 'woocommerce' ),
-	//        ),
-	//    ),
-		'production_ppr'            => array(
-			'title'       => __( 'Checkout form view', 'mypos-payments' ),
-			'type'        => 'select',
-			'class'       => 'wc-enhanced-select',
-			'description' => __( '<strong>Full payment form</strong><br/>When you choose the "Full payment form", you can collect detailed customer information on checkout - customer names, address, phone number and email. Have in mind, that if your website has a shipping form, customer should double type some of the details. All fields are mandatory. Names and email address are not editable on the payment page.<br/><br/><strong>Simplified payment form</strong><br/>Similar to the "Full payment form". However, customer names and email addresses are editable on the payment page.<br/><br/><strong>Ultra-simplified payment form</strong><br/>The most basic payment form - it requires only card details. Use this only if you collect customer details on a prior page.', 'mypos-payments' ),
-			'desc_tip'    => true,
-			'default'     => 3,
-			'options'     => array(
-				'1' => __( 'Full payment form', 'mypos-payments' ),
-				'2' => __( 'Simplified payment form', 'mypos-payments' ),
-				'3' => __( 'Ultra-simplified payment form', 'mypos-payments' ),
-			),
 		),
+	),
+//	'production_payment_method'     => array(
+//		'title'       => __( 'Payment Method', 'mypos-payments' ),
+//		'type'        => 'select',
+//		'class'       => 'wc-enhanced-select',
+//		'desc_tip'    => true,
+//		'default'     => 3,
+//		'options'     => array(
+//			'1' => __( 'Card Payment', 'mypos-payments' ),
+//			'2' => __( 'iDeal', 'mypos-payments' ),
+//			'3' => __( 'All', 'mypos-payments' ),
+//		),
+//	),
+	'production_ppr'                => array(
+		'title'       => __( 'Checkout form view', 'mypos-payments' ),
+		'type'        => 'select',
+		'class'       => 'wc-enhanced-select',
+		'description' => __( '<strong>Full payment form</strong><br/>When you choose the "Full payment form", you can collect detailed customer information on checkout - customer names, address, phone number and email. Have in mind, that if your website has a shipping form, customer should double type some of the details. All fields are mandatory. Names and email address are not editable on the payment page.<br/><br/><strong>Simplified payment form</strong><br/>Similar to the "Full payment form". However, customer names and email addresses are editable on the payment page.<br/><br/><strong>Ultra-simplified payment form</strong><br/>The most basic payment form - it requires only card details. Use this only if you collect customer details on a prior page.', 'mypos-payments' ),
+		'desc_tip'    => true,
+		'default'     => 3,
+		'options'     => array(
+			'1' => __( 'Full payment form', 'mypos-payments' ),
+			'2' => __( 'Simplified payment form', 'mypos-payments' ),
+			'3' => __( 'Ultra-simplified payment form', 'mypos-payments' ),
+		),
+	),
 	'production_easy_setup'         => array(
 		'type'        => 'title',
 		'css'         => 'color: grey;',
@@ -245,29 +243,29 @@ Additional information about the contents and configuration of the Configuration
 //		'description' => __( 'The myPOS Public Certificate is available for download in your online banking at www.mypos.com > menu Online stores > Keys.', 'mypos-payments' ),
 //		'desc_tip'    => true,
 //	),
-	//    'production_url' => array(
-	//        'title'       => __( '', 'woocommerce-gateway-mypos' ),
-	//        'type'        => 'hidden',
-	//        'default'     => 'https://www.mypos.com/vmp/checkout',
-	//    ),
-//		'production_keyindex'       => array(
-//			'title'       => __( 'Production Key Index', 'mypos-payments' ),
-//			'type'        => 'text',
-//			'description' => __( 'The Key Index assigned to the certificate could be reviewed in your online banking at www.mypos.com > menu Online stores > Keys.', 'mypos-payments' ),
-//			'desc_tip'    => true,
-//		),
+//	'production_url'                => array(
+//		'title'       => __( '', 'mypos-payments' ),
+//		'type'        => 'hidden',
+//		'default'     => 'https://www.mypos.com/vmp/checkout',
+//	),
+//	'production_keyindex'           => array(
+//		'title'       => __( 'Production Key Index', 'mypos-payments' ),
+//		'type'        => 'text',
+//		'description' => __( 'The Key Index assigned to the certificate could be reviewed in your online banking at www.mypos.com > menu Online stores > Keys.', 'mypos-payments' ),
+//		'desc_tip'    => true,
+//	),
 //
 //	'merchant_wallet_number'        => array(
-//		'title'       => '', //__( 'Merchant wallet number', 'woocommerce' ),
+//		'title'       => __( 'Merchant wallet number', 'mypos-payments' ),
 //		'type'        => 'hidden',
-//		'description' => '', //__('Merchant number for send money on order complete', 'woocommerce'),
+//		'description' => __( 'Merchant number for send money on order complete', 'mypos-payments' ),
 //		'desc_tip'    => true,
 //	),
 
 	'merchant_send_money_reason'    => array(
-		'title'       => '', //__( 'Merchant wallet number', 'woocommerce' ),
+		'title'       => '',
 		'type'        => 'hidden',
-		'description' => '', //__('Merchant number for send money on order complete', 'woocommerce'),
+		'description' => '',
 		'desc_tip'    => true,
 	),
 );

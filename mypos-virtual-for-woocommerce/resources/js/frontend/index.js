@@ -14,9 +14,9 @@ const label = decodeEntities( settings.title ) || 'Card Payment - myPOS';
  * Content component
  */
 const Content = () => {
-	let desc = decodeEntities( htmlToElem( "Pay via myPOS Checkout" +"<img src='"+settings.path+"/mypos-virtual-for-woocommerce/assets/images/card_schemes_ideal_no_bg.png' style=\"max-width: 100%;\"/>"));
+	let desc = decodeEntities( htmlToElem( "Pay via myPOS Checkout" +"<img src='"+settings.path+"/assets/images/card_schemes_ideal_no_bg.png' style=\"max-width: 100%;\"/>"));
 	if (settings?.description){
-		desc = decodeEntities( htmlToElem( settings.description + "<img src='"+settings.path+"/mypos-virtual-for-woocommerce/assets/images/card_schemes_ideal_no_bg.png' style=\"max-width: 100%;\"/>"));
+		desc = decodeEntities( htmlToElem( settings.description + "<img src='"+settings.path+"/assets/images/card_schemes_ideal_no_bg.png' style=\"max-width: 100%;\"/>"));
 	}
     return  desc;
 };

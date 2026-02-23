@@ -2,10 +2,10 @@
 // phpcs:disable Universal.Files.SeparateFunctionsFromOO.Mixed -- Main plugin file requires both function and class declarations.
 
 /**
- * Plugin Name: myPOS Checkout for WooCommerce
+ * Plugin Name: myPOS Checkout
  * Plugin URI: https://www.mypos.com
  * Description: Accept payments with myPOS - instant settlement, all major cards, Apple Pay and Google Pay. No setup costs or monthly fees.
- * Version: 1.4.2
+ * Version: 1.4.3
  * Author: myPOS Europe LTD
  * Author URI: https://www.mypos.com
  * Developer: Intercard Finance
@@ -159,7 +159,7 @@ class WC_Mypos_Payments {
 			add_filter(
 				'__experimental_woocommerce_blocks_add_data_attributes_to_block',
 				function ( $allowed_blocks ) {
-					$allowed_blocks[] = 'woocommerce/mypos-virtual-for-woocommerce';
+					$allowed_blocks[] = 'mypos/checkout';
 					return $allowed_blocks;
 				},
 				10,

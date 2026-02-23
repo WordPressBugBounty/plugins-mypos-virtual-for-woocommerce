@@ -34,7 +34,7 @@ export default function Edit() {
 		<p { ...useBlockProps() }>
 			{ __(
 				'MyPOS Checkout – hello from the editor!',
-				'mypos-virtual-for-woocommerce'
+				'mypos-payments'
 			) }
 		</p>
 	);

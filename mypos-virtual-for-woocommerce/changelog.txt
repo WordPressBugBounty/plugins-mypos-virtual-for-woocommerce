@@ -1,4 +1,9 @@
-*** myPOS Virtual for WooCommerce Changelog ***
+*** myPOS Checkout Changelog ***
+
+2026-02-23 - version 1.4.3
+* Tweak - Plugin name updated to comply with WooCommerce Marketplace naming guidelines.
+* Tweak - Block type identifier updated to use mypos namespace.
+* Fix - Text domain consistency across all plugin components.
 
 2026-01-26 - version 1.4.0
 * Add - Refund support for partial and full refunds via myPOS.

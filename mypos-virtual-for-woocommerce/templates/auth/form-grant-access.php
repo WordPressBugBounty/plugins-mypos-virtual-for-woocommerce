@@ -101,7 +101,7 @@ do_action( 'mypos_auth_page_header' );
 <!-- Logged in header -->
 <div class="wc-auth-header wc-auth-logged-in-header">
 	<div>
-		<img src="<?php echo esc_url( plugins_url( '/mypos-virtual-for-woocommerce/assets/images/mypos_logo.png' ) ); ?>"
+		<img src="<?php echo esc_url( $mypos_instance->plugin_url() . '/assets/images/mypos_logo.png' ); ?>"
 			alt="myPOS" class="mypos-logo"/>
 		<span>+</span>
 		<h1 id="wc-logo"><img src="<?php echo esc_url( WC()->plugin_url() ); ?>/assets/images/woocommerce_logo.png"

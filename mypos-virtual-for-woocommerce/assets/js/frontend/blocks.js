@@ -12,7 +12,7 @@
     if (!myposData) return;
 
     const labelText = decodeEntities(myposData.title) || "Card Payment - myPOS";
-    const imgMarkup = `<img src="${myposData.path}/mypos-virtual-for-woocommerce/assets/images/card_schemes_ideal_no_bg.png" alt="Card Schemes" style="max-width: 100%;"/>`;
+    const imgMarkup = `<img src="${myposData.path}/assets/images/card_schemes_ideal_no_bg.png" alt="Card Schemes" style="max-width: 100%;"/>`;
     const descriptionMarkup = myposData.description
         ? `${decodeEntities(myposData.description)} ${imgMarkup}`
         : `Pay via myPOS Checkout ${imgMarkup}`;
