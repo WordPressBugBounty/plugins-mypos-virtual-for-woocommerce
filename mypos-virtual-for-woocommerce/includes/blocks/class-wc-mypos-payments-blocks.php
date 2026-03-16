@@ -37,7 +37,7 @@ final class WC_Gateway_Mypos_Blocks_Support extends AbstractPaymentMethodType {
 			? require $script_asset_path
 			: array(
 				'dependencies' => array(),
-				'version'      => '1.4.3',
+				'version'      => '1.4.4',
 			);
 		$script_url        = WC_Mypos_Payments::plugin_url() . $script_path;
 

@@ -5,16 +5,16 @@
  * Plugin Name: myPOS Checkout
  * Plugin URI: https://www.mypos.com
  * Description: Accept payments with myPOS - instant settlement, all major cards, Apple Pay and Google Pay. No setup costs or monthly fees.
- * Version: 1.4.3
+ * Version: 1.4.4
  * Author: myPOS Europe LTD
  * Author URI: https://www.mypos.com
  * Developer: Intercard Finance
  * Developer URI: https://www.mypos.com
  * Text Domain: mypos-payments
  * Requires at least: 6.1
- * Tested up to: 6.9
+ * Tested up to: 6.9.3
  * WC requires at least: 7.0
- * WC tested up to: 10.4.3
+ * WC tested up to: 10.6.0
  * Requires PHP: 7.4
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -55,22 +55,22 @@ class WC_Mypos_Payments {
 	public static function init() {
 		add_action( 'plugins_loaded', array( __CLASS__, 'includes' ), 0 );
 		add_filter( 'woocommerce_payment_gateways', array( __CLASS__, 'add_gateway' ) );
-		
+
 		// Register WooCommerce API endpoint for myPOS webhook callbacks
 		// This ensures the endpoint is available before WooCommerce API processes requests
 		add_action( 'init', array( __CLASS__, 'register_api_endpoint' ), 5 );
-		
+
 		add_action(
 			'woocommerce_blocks_loaded',
 			array( __CLASS__, 'woocommerce_gateway_mypos_woocommerce_block_support' )
 		);
 		add_action( 'init', 'mypos_checkout_for_woocommerce_mypos_checkout_for_woocommerce_block_init' );
 		add_action( 'before_woocommerce_init', array( __CLASS__, 'declare_hpos_compatibility' ) );
-		
+
 		// Add Settings link in plugins list page
 		add_filter( 'plugin_action_links_' . plugin_basename( MYPOS_PLUGIN_FILE ), array( __CLASS__, 'plugin_action_links' ) );
 	}
-	
+
 	/**
 	 * Register WooCommerce API endpoint for webhook callbacks
 	 * This method ensures the gateway class is available when webhook callbacks are processed
@@ -93,10 +93,10 @@ class WC_Mypos_Payments {
 	public static function plugin_action_links( $links ) {
 		$settings_url = admin_url( 'admin.php?page=wc-settings&tab=checkout&section=mypos_virtual' );
 		$settings_link = '<a href="' . esc_url( $settings_url ) . '">' . esc_html__( 'Settings', 'mypos-payments' ) . '</a>';
-		
+
 		// Add Settings link at the beginning of the array
 		array_unshift( $links, $settings_link );
-		
+
 		return $links;
 	}
 

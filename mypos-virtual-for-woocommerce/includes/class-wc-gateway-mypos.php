@@ -25,7 +25,7 @@ require_once 'class-mypos-auth.php';
  * WC_Gateway_Mypos class
  *
  * @package WooCommerce Mypos Payments Gateway
- * @since 1.4.3
+ * @since 1.4.4
  */
 class WC_Gateway_Mypos extends WC_Payment_Gateway {
 
@@ -129,7 +129,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode -- Required for decoding encrypted payment package credentials from myPOS.
 			$production_package = $this->get_option( 'production_package' );
 			$package_data       = array();
-			
+
 			// Decode package only if not empty
 			if ( ! empty( $production_package ) ) {
 				$package_data = json_decode( base64_decode( $production_package ), true );
@@ -174,7 +174,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode -- Required for decoding encrypted developer package credentials from myPOS.
 			$developer_package = $this->get_option( 'developer_package' );
 			$package_data      = array();
-			
+
 			// Decode package only if not empty
 			if ( ! empty( $developer_package ) ) {
 				$package_data = json_decode( base64_decode( $developer_package ), true );
@@ -243,9 +243,9 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 		add_action( 'wp_ajax_mypos_test_connection', array( $this, 'ajax_test_connection' ) );
 
 		// REMOVED: Invalid hook to non-existent method that was causing 2min delays
-		// if ( ! empty( $this->merchant_wallet_number ) ) {
-		// 	add_action( 'woocommerce_before_order_object_save', array( $this, 'capture_payment_complete' ) );
-		// }
+		//if ( ! empty( $this->merchant_wallet_number ) ) {
+			//add_action( 'woocommerce_before_order_object_save', array( $this, 'capture_payment_complete' ) );
+		//}
 
 		if ( ! $this->is_valid_for_use() ) {
 			$this->enabled = 'no';
@@ -348,9 +348,9 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 		if ( isset( $result['Status'] ) && ( 0 === $result['Status'] || '0' === $result['Status'] ) ) {
 			// Refund successful - get transaction ID
 			$refund_id = isset( $result['IPC_Trnref'] ) ? $result['IPC_Trnref'] : '';
-			
+
 			self::log( sprintf( 'Refund successful: Order #%d, Transaction ID: %s', $order_id, $refund_id ) );
-			
+
 			// Add order note
 			$order->add_order_note(
 				sprintf(
@@ -361,13 +361,13 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 					$refund_id
 				)
 			);
-			
+
 			// Return true - WooCommerce will create refund object
 			return true;
 		} else {
 			// Refund failed
 			$error_message = isset( $result['StatusMsg'] ) ? $result['StatusMsg'] : __( 'Unknown error', 'mypos-payments' );
-			
+
 			$order->add_order_note(
 				sprintf(
 					/* translators: %s: Error message */
@@ -504,7 +504,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 	}
 
 	public function get_source() {
-		return 'sc_wp_woocommerce 1.4.3 ' . PHP_VERSION . ' ' . get_bloginfo( 'version' );
+		return 'sc_wp_woocommerce 1.4.4 ' . PHP_VERSION . ' ' . get_bloginfo( 'version' );
 	}
 
 	public function receipt_page( $order ) {
@@ -579,13 +579,13 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 
 		// Verify cryptographic signature from payment gateway for authentication.
 		if ( $this->is_valid_signature( $post_raw ) ) {
-			
+
 			// Sanitize the data AFTER successful signature verification
 			$post = array();
 			foreach ( $post_raw as $key => $value ) {
 				$post[ $key ] = sanitize_text_field( $value );
 			}
-			
+
 			if ( 'IPCSignatureVerify' === $post['IPCmethod'] ) {
 				echo 'OK';
 				exit;
@@ -597,7 +597,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 			}
 
 			$order = new WC_Order( $post['OrderID'] );
-			
+
 			if ( ! $order || ! $order->get_id() ) {
 				self::log( 'Webhook error: Order not found - OrderID: ' . $post['OrderID'] );
 				echo 'ORDER NOT FOUND';
@@ -610,32 +610,32 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 		while ( ob_get_level() > 0 ) {
 			ob_end_clean();
 		}
-		
+
 		// Send OK response NOW
 		header( 'Connection: close' );
 		header( 'Content-Length: 2' );
 		echo 'OK';
-		
+
 		// Flush and close connection to myPOS
 		if ( function_exists( 'fastcgi_finish_request' ) ) {
 			fastcgi_finish_request();
 		} else {
 			flush();
 		}
-		
+
 		// NOW process the order in background (connection already closed)
 		try {
 			self::log( 'IPCPurchaseNotify: Processing webhook for order #' . $order->get_id() );
 			self::log( 'IPCPurchaseNotify: Current order status: ' . $order->get_status() );
-			
+
 			// Set data
 			$order->set_transaction_id( sanitize_text_field( $post['IPC_Trnref'] ) );
 			$order->set_payment_method( $this->id );
 			$order->set_payment_method_title( $this->title );
 			$order->update_meta_data( '_mypos_payment_verified', 'yes' );
-			
+
 			self::log( 'IPCPurchaseNotify: Transaction ID set: ' . $post['IPC_Trnref'] );
-			
+
 			// Update status if needed
 			$current_status = $order->get_status();
 			if ( ! in_array( $current_status, array( 'processing', 'completed' ), true ) ) {
@@ -650,26 +650,26 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 				// Save WITHOUT triggering hooks if already processed
 				$order->save();
 			}
-			
+
 			// Save WITHOUT triggering hooks
 			$order->save();
-			
+
 			self::log( 'IPCPurchaseNotify: Order saved. Final status: ' . $order->get_status() );
-			
+
 			// Remove from pending schedule
 			$this->remove_from_pending_payments_schedule( $order->get_id() );
-			
+
 		} catch ( Exception $e ) {
 			self::log( 'IPCPurchaseNotify error: ' . $e->getMessage() );
 		}
-		
+
 		exit;
 	}
 
 			if ( 'IPCPurchaseRollback' === $post['IPCmethod'] ) {
 				try {
 					global $wpdb;
-					
+
 					// Update order status directly in database
 					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Performance critical webhook.
 					$wpdb->update(
@@ -679,14 +679,14 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 						array( '%s' ),
 						array( '%d' )
 					);
-					
+
 					$order->add_order_note( __( 'myPOS Gateway declined payment.', 'mypos-payments' ) );
 					$this->remove_from_pending_payments_schedule( $order->get_id() );
-					
+
 					while ( ob_get_level() > 0 ) {
 						ob_end_clean();
 					}
-					
+
 					echo 'OK';
 					exit;
 				} catch ( Exception $e ) {
@@ -698,7 +698,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 
 		if ( 'IPCPurchaseCancel' === $post['IPCmethod'] ) {
 			$this->remove_from_pending_payments_schedule( $order->get_id() );
-			
+
 			// Update order status to cancelled (this also updates cache)
 			$order->set_status( 'cancelled', __( 'User canceled the order.', 'mypos-payments' ) );
 			$order->save();
@@ -712,7 +712,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 		// User returns after successful payment
 		// IPCPurchaseNotify webhook already updated the order status
 		self::log( 'IPCPurchaseOK: User redirect after successful payment for order #' . $order->get_id() );
-		
+
 		// IMMEDIATE redirect - no status checks, no queries
 		wp_safe_redirect( $order->get_checkout_order_received_url() );
 		exit;
@@ -737,13 +737,13 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 	 */
 	public function webhook_shutdown_handler() {
 		$error = error_get_last();
-		
+
 		if ( $error !== null && in_array( $error['type'], array( E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR ), true ) ) {
 			self::log( '!!! FATAL ERROR CAUGHT BY SHUTDOWN HANDLER !!!' );
 			self::log( 'Error type: ' . $error['type'] );
 			self::log( 'Error message: ' . $error['message'] );
 			self::log( 'Error file: ' . $error['file'] . ':' . $error['line'] );
-			
+
 			// Try to send response to myPOS even after fatal error
 			if ( ! headers_sent() ) {
 				echo 'FATAL ERROR: ' . esc_html( $error['message'] );
@@ -760,7 +760,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 	 */
 	public function generate_ipc_form( $order_id ) {
 		global $woocommerce;
-		
+
 		$order = new WC_Order( $order_id );
 		$this->add_to_pending_payments_schedule( $order->get_id() );
 
@@ -880,7 +880,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 	 *
 	 * IMPORTANT: Preserves original key case (IPCmethod, OrderID, Signature, etc.)
 	 * as myPOS sends parameters with specific capitalization.
-	 * 
+	 *
 	 * Note: This method is DEPRECATED. Use direct $_POST access in check_ipc_response() instead.
 	 * Kept for backwards compatibility only.
 	 *
@@ -921,7 +921,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 		// myPOS sends 'Signature' with capital S. Support both for backwards compatibility.
 		$signature     = null;
 		$signature_key = null;
-		
+
 		if ( isset( $post_data['Signature'] ) ) {
 			$signature     = $post_data['Signature'];
 			$signature_key = 'Signature';
@@ -932,7 +932,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 			self::log( 'Signature error: No Signature field in POST data' );
 			return false;
 		}
-		
+
 		if ( ! $signature ) {
 			self::log( 'Signature error: Signature is empty' );
 			return false;
@@ -945,9 +945,9 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 				$data_parts[] = $value;
 			}
 		}
-		
+
 		$data_to_verify = implode( '-', $data_parts );
-		
+
 		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode -- Required for cryptographic signature verification.
 		$conc_data = base64_encode( $data_to_verify );
 
@@ -956,7 +956,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 			self::log( 'Signature error: Public certificate is empty' );
 			return false;
 		}
-		
+
 		$pub_key_id = openssl_get_publickey( $this->public_certificate );
 
 		if ( ! $pub_key_id ) {
@@ -968,14 +968,14 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode -- Required for cryptographic signature verification.
 		$signature_decoded = base64_decode( $signature );
 		$result            = openssl_verify( $conc_data, $signature_decoded, $pub_key_id, OPENSSL_ALGO_SHA256 );
-		
+
 		// Free key resource.
 		unset( $pub_key_id );
-		
+
 		if ( 1 === $result ) {
 			return true;
 		}
-		
+
 		// Signature verification failed
 		$ipc_method = isset( $post_data['IPCmethod'] ) ? $post_data['IPCmethod'] : 'unknown';
 		self::log( 'Signature error: Verification failed for ' . $ipc_method );
@@ -1051,7 +1051,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 
 		if ( ! $existing_schedule ) {
 			$expired_time = time() + DAY_IN_SECONDS;
-			
+
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$wpdb->insert(
 				$table_name,
@@ -1063,7 +1063,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 				),
 				array( '%d', '%d', '%d', '%d' )
 			);
-			
+
 			wp_cache_delete( $cache_key, 'mypos' );
 		}
 	}
@@ -1094,7 +1094,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 		if ( $rendered ) {
 			return;
 		}
-		
+
 		if ( $order->get_payment_method() !== $this->id ) {
 			return;
 		}
@@ -1114,7 +1114,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 		if ( in_array( $order_status, array( 'processing', 'completed' ), true ) && 'yes' === $payment_verified ) {
 			// Payment successful
 			echo '<p style="color: #46b450; font-weight: bold;">✓ ' . esc_html__( 'Payment verified and completed successfully.', 'mypos-payments' ) . '</p>';
-			
+
 			if ( $transaction_id ) {
 				echo '<p><strong>' . esc_html__( 'Transaction ID:', 'mypos-payments' ) . '</strong> <code>' . esc_html( $transaction_id ) . '</code></p>';
 			}
@@ -1134,7 +1134,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 		} elseif ( 'pending' === $order_status || 'on-hold' === $order_status ) {
 			// Payment pending - show check button
 			echo '<p style="color: #f0ad4e; font-weight: bold;">⏳ ' . esc_html__( 'Waiting for payment confirmation from myPOS.', 'mypos-payments' ) . '</p>';
-			
+
 			if ( $transaction_id ) {
 				echo '<p><strong>' . esc_html__( 'Transaction ID:', 'mypos-payments' ) . '</strong> <code>' . esc_html( $transaction_id ) . '</code></p>';
 			}
@@ -1156,22 +1156,22 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 		console.log('=== myPOS Check Payment Status Script Loaded ===');
 		console.log('jQuery available:', typeof jQuery !== 'undefined');
 		console.log('$ available:', typeof $ !== 'undefined');
-		
+
 		jQuery(document).ready(function($) {
 			console.log('=== jQuery Ready Fired ===');
-			
+
 			var button = $('.mypos-check-payment-status');
 			console.log('Button found:', button.length, button);
-			
+
 			if (button.length === 0) {
 				console.error('ERROR: Button .mypos-check-payment-status not found in DOM!');
 				return;
 			}
-			
+
 			button.on('click', function(e) {
 				console.log('=== BUTTON CLICKED ===');
 				e.preventDefault();
-				
+
 				var button = jQuery(this);
 				var orderId = button.data('order-id');
 				var spinner = jQuery('.mypos-check-status-spinner');
@@ -1203,18 +1203,18 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 					console.log('response.data:', response.data);
 					console.log('response.data.reload:', response.data.reload);
 					console.log('Type of reload:', typeof response.data.reload);
-					
+
 					if (response.success) {
 						resultDiv.html('<p style="color: #46b450;">✓ ' + response.data.message + '</p>');
-						
+
 						// Check if we should reload - handle both boolean and string
 						if (response.data.reload === true || response.data.reload === 'true' || response.data.reload == 1) {
 							willReload = true;
 							console.log('RELOAD TRIGGERED! Type:', typeof response.data.reload, 'Value:', response.data.reload);
-							
+
 							// Show loading message
 							resultDiv.append('<p style="color: #666; margin-top: 5px;"><span class="spinner is-active" style="float: none; margin: 0 5px 0 0;"></span>Reloading page...</p>');
-							
+
 							// Delay to ensure order save completed
 							setTimeout(function() {
 								console.log('Reloading page...');
@@ -1236,7 +1236,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 					},
 					complete: function() {
 						console.log('AJAX Complete. Will reload:', willReload);
-						
+
 						// Only re-enable button if NOT reloading
 						if (!willReload) {
 							button.prop('disabled', false);
@@ -1404,7 +1404,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 		// PaymentStatus = "2" or 2: Payment Pending
 		// PaymentStatus = "3" or 3: Payment Failed/Cancelled
 		// PaymentStatus = "0" or 0: Payment not found/not initiated
-		
+
 		// Check if PaymentStatus field exists
 		if ( ! isset( $result['PaymentStatus'] ) ) {
 			self::log( 'ERROR: Missing PaymentStatus field in response' );
@@ -1437,16 +1437,16 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 
 			if ( in_array( $order_status, array( 'pending', 'on-hold' ), true ) ) {
 				self::log( 'Updating order #' . $order_id . ' to Processing' );
-				
+
 				if ( $verified_transaction_id ) {
 					$order->set_transaction_id( $verified_transaction_id );
 				}
 				$order->update_meta_data( '_mypos_payment_verified', 'yes' );
 				$order->set_status( 'processing', __( 'Payment verified via myPOS API check.', 'mypos-payments' ) );
 				$order->save();
-				
+
 				self::log( 'Order #' . $order_id . ' updated to Processing' );
-				
+
 				wp_send_json_success(
 					array(
 						'message' => __( 'Payment verified! Order status updated to Processing.', 'mypos-payments' ),
@@ -1474,11 +1474,11 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 		} elseif ( 3 === $payment_status ) {
 			// PAYMENT FAILED/CANCELLED (PaymentStatus=3)
 			self::log( 'Payment failed or cancelled (PaymentStatus=3)' );
-			
+
 			if ( in_array( $order_status, array( 'pending', 'on-hold' ), true ) ) {
 				$order->set_status( 'failed', __( 'Payment failed or cancelled in myPOS.', 'mypos-payments' ) );
 				$order->save();
-				
+
 				wp_send_json_success(
 					array(
 						'message' => __( 'Payment was failed or cancelled. Order marked as Failed.', 'mypos-payments' ),
@@ -1568,7 +1568,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 
 			// Create a simple test request using IPCGetPaymentStatus with a dummy order
 			$test_order_id = 'TEST_CONNECTION_' . time();
-			
+
 			$test_data = array(
 				'IPCmethod'    => 'IPCGetPaymentStatus',
 				'IPCVersion'   => '1.4',
@@ -1583,7 +1583,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 			// Create signature using current credentials
 			// For test, we'll use the saved credentials from settings
 			$private_key = $test_mode ? $this->get_option( 'developer_private_key' ) : $this->get_option( 'production_private_key' );
-			
+
 			if ( empty( $private_key ) ) {
 				wp_send_json_error(
 					array(
@@ -1599,7 +1599,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 					$conc_data .= $val;
 				}
 			}
-			
+
 			$priv_key_obj = openssl_pkey_get_private( $private_key );
 			if ( false === $priv_key_obj ) {
 				wp_send_json_error(
@@ -1725,7 +1725,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 
 		// Check if there's a pending update for this order
 		$update_pending = get_transient( 'mypos_update_order_' . $order_id );
-		
+
 		if ( ! $update_pending ) {
 			return;
 		}
@@ -1734,7 +1734,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 		delete_transient( 'mypos_update_order_' . $order_id );
 
 		$order = wc_get_order( $order_id );
-		
+
 		if ( ! $order || $this->id !== $order->get_payment_method() ) {
 			return;
 		}
@@ -1742,13 +1742,13 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 		// Update order status if still pending
 		if ( 'pending' === $order->get_status() ) {
 			self::log( 'Deferred update: Updating order #' . $order_id . ' to processing' );
-			
-			$order->set_status( 
+
+			$order->set_status(
 				'processing',
 				__( 'myPOS payment completed successfully.', 'mypos-payments' )
 			);
 			$order->save();
-			
+
 			self::log( 'Deferred update: Order #' . $order_id . ' updated successfully' );
 		}
 	}
