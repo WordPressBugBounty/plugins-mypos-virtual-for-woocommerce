@@ -5,7 +5,7 @@ Requires at least: 6.1
 Tested up to: 6.9.3
 WC tested up to: 10.6.0
 Requires PHP: 7.4
-Stable tag: 1.4.4
+Stable tag: 1.4.5
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -122,6 +122,9 @@ Additionally, you can visit the WooCommerce integration page  [https://developer
 4. Easy installation and set-up
 
 == Changelog ==
+= 1.4.5 =
+* Fix - Guarded the database schema install routine behind a stored DB version check, so it no longer runs (and issues redundant dbDelta ALTER TABLE queries) on every request.
+
 = 1.4.3 =
 * Tweak - Plugin name updated to comply with WooCommerce Marketplace naming guidelines.
 * Tweak - Block type identifier updated to use mypos namespace.
@@ -131,6 +134,9 @@ Additionally, you can visit the WooCommerce integration page  [https://developer
 * myPOS Checkout First Release
 
 == Upgrade Notice ==
+= 1.4.5 =
+* Fixes a database performance issue where the plugin's install routine could run on every page load, causing redundant database queries. Recommended for all users.
+
 = 1.4.3 =
 * Plugin name updated to comply with WooCommerce Marketplace naming guidelines.
 

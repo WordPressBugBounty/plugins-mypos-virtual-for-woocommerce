@@ -2,6 +2,11 @@
 
 defined( 'ABSPATH' ) || exit;
 
+if ( ! defined( 'MYPOS_DB_VERSION' ) ) {
+	// Bump this only when get_schema() actually changes, not on every plugin release.
+	define( 'MYPOS_DB_VERSION', '1.0.1' );
+}
+
 /**
  * MyPOS_Install Class.
  */
@@ -11,7 +16,18 @@ class MyPOS_Install {
 	 * Hook in tabs.
 	 */
 	public static function init() {
-		add_action( 'init', array( __CLASS__, 'install' ) );
+		add_action( 'init', array( __CLASS__, 'check_version' ) );
+	}
+
+	/**
+	 * Run the install routine only when the stored DB schema version differs from the current one.
+	 * Without this guard, install() (and its dbDelta() schema comparison) would run on every request.
+	 */
+	public static function check_version() {
+		if ( get_option( 'mypos_db_version' ) !== MYPOS_DB_VERSION ) {
+			self::install();
+			update_option( 'mypos_db_version', MYPOS_DB_VERSION );
+		}
 	}
 
 	/**
@@ -75,7 +91,7 @@ class MyPOS_Install {
 		}
 
 		$tables = "CREATE TABLE {$wpdb->prefix}mypos_upsells (
-            id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+            id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             name varchar(200) NOT NULL,
             base_products longtext NOT NULL,
             recommended_products longtext NOT NULL,
@@ -87,9 +103,9 @@ class MyPOS_Install {
         CREATE TABLE {$wpdb->prefix}mypos_pending_payments_schedule (
             id int(11) NOT NULL AUTO_INCREMENT,
             order_id varchar(255) NOT NULL,
-            last_check int NULL,
-            expired_time int NOT NULL,
-            test_environment boolean NOT NULL,
+            last_check int(11) NULL,
+            expired_time int(11) NOT NULL,
+            test_environment tinyint(1) NOT NULL,
             UNIQUE KEY id (id)
         ) $collate;";
 

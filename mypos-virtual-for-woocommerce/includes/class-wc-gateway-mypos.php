@@ -504,7 +504,7 @@ class WC_Gateway_Mypos extends WC_Payment_Gateway {
 	}
 
 	public function get_source() {
-		return 'sc_wp_woocommerce 1.4.4 ' . PHP_VERSION . ' ' . get_bloginfo( 'version' );
+		return 'sc_wp_woocommerce 1.4.5 ' . PHP_VERSION . ' ' . get_bloginfo( 'version' );
 	}
 
 	public function receipt_page( $order ) {

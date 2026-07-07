@@ -5,7 +5,7 @@
  * Plugin Name: myPOS Checkout
  * Plugin URI: https://www.mypos.com
  * Description: Accept payments with myPOS - instant settlement, all major cards, Apple Pay and Google Pay. No setup costs or monthly fees.
- * Version: 1.4.4
+ * Version: 1.4.5
  * Author: myPOS Europe LTD
  * Author URI: https://www.mypos.com
  * Developer: Intercard Finance

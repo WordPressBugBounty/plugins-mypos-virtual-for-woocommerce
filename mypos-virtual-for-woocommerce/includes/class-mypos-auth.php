@@ -174,16 +174,17 @@ class MyPOS_Auth {
 	 * @throws Exception When update fails.
 	 */
 	protected function update_options( $developer_package ) {
-		$new_options = '';
 		$old_options = get_option( 'woocommerce_mypos_virtual_settings' );
 
-		if ( false !== $old_options ) {
-			$new_options = $old_options;
+		// Start from existing settings or a safe empty array (never an empty string).
+		$new_options = is_array( $old_options ) ? $old_options : array();
 
-			$new_options['test']               = 'no';
-			$new_options['production_package'] = $developer_package;
-		}
-		if ( get_option( 'woocommerce_mypos_virtual_settings' ) !== $new_options &&
+		$new_options['test']               = 'no';
+		$new_options['production_package'] = $developer_package;
+
+		// update_option returns false both on failure AND when value is unchanged.
+		// Only treat it as an error when the value actually differs from what is stored.
+		if ( $old_options !== $new_options &&
 			false === update_option( 'woocommerce_mypos_virtual_settings', $new_options ) ) {
 			throw new RuntimeException( esc_html__( 'Could not make an update', 'mypos-payments' ) );
 		}
@@ -198,8 +199,6 @@ class MyPOS_Auth {
 	 * @throws Exception When validation fails.
 	 */
 	protected function auth_endpoint( string $route ) {
-		ob_start();
-		include 'mypos-core-functions.php';
 		try {
 			$route = strtolower( $route );
 
@@ -261,7 +260,10 @@ class MyPOS_Auth {
 				}
 
 				if ( $this->update_options( $data['developer_package'] ) ) {
-					wp_safe_redirect(
+					// Use wp_redirect (not wp_safe_redirect) because success_url is an
+					// external myPOS callback URL. The URL is validated via FILTER_VALIDATE_URL
+					// in make_validation() and the nonce has already been verified above.
+					wp_redirect( // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
 						esc_url_raw(
 							$this->get_formatted_url( $data['success_url'] )
 						)

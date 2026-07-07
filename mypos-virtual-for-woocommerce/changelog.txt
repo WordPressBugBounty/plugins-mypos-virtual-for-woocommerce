@@ -1,5 +1,8 @@
 *** myPOS Checkout Changelog ***
 
+2026-07-07 - version 1.4.5
+* Fix - Guarded the database schema install routine (MyPOS_Install) behind a stored DB version check, preventing redundant dbDelta()/ALTER TABLE execution on every request (PRODSUPP-1140).
+
 2026-03-10 - version 1.4.4
 * Tweak - Updated plugin description and readme for better clarity.
 * Tweak - Updated Woo logo
